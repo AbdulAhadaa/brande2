@@ -2871,7 +2871,7 @@ const renderPromptLibraryPage = () => (
             </div>
           </div>
           <div className="ml-auto flex items-center space-x-4 animate-slide-in-left">
-              {/* <Button
+              <Button
                 variant="ghost"
                 size="sm"
                 onClick={toggleTheme}
@@ -2882,7 +2882,7 @@ const renderPromptLibraryPage = () => (
                 ) : (
                   <Sun className="w-4 h-4 animate-spin-slow" />
                 )}
-              </Button> */}
+              </Button>
             <Button
               variant="ghost"
               size="sm"
