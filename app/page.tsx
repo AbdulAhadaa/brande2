@@ -56,7 +56,7 @@ export default function Dashboard() {
   // Theme management
   useEffect(() => {
     setMounted(true)
-    const savedTheme = localStorage.getItem("theme") || "light"
+    const savedTheme = localStorage.getItem("theme") || "dark"
     setTheme(savedTheme)
     document.documentElement.classList.toggle("dark", savedTheme === "dark")
   }, [])
@@ -480,7 +480,7 @@ const otherBrands = [
     </Card>
   )
 
- const CompetitorCard = ({ competitors, title, subtitle }) => (
+const CompetitorCard = ({ competitors, title, subtitle }) => (
   <Card className="hover:shadow-xl">
     <CardHeader className="pb-4">
       <div className="flex items-center justify-between">
@@ -524,10 +524,7 @@ const otherBrands = [
                       </span>
                     )}
                   </div>
-
-                 
                 </div>
-
                 <div>
                   <span className="font-semibold text-foreground group-hover:text-primary transition-colors duration-700">
                     {competitor.name}
@@ -535,23 +532,24 @@ const otherBrands = [
                   <p className="text-sm text-muted-foreground">Automotive Brand</p>
                 </div>
               </div>
-
               <div className="flex items-center space-x-4">
                 <div className="text-right">
                   <div className="flex items-center space-x-2 mb-1">
                     <span className="text-sm font-medium text-muted-foreground">Score</span>
-                    <span className="font-semibold">
+                    <span className="font-semibold" style={{ color: "#8BC53F" }}>
                       {competitor.score}%
                     </span>
                   </div>
                   <div className="w-24 h-2 bg-muted rounded-full overflow-hidden">
                     <div
-                      className="h-full bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full"
-                      style={{ width: `${competitor.score}%` }}
+                      className="h-full rounded-full"
+                      style={{
+                        width: `${competitor.score}%`,
+                        background: "#8BC53F"
+                      }}
                     />
                   </div>
                 </div>
-
                 <div className="flex items-center space-x-2">
                   <div
                     className={`p-1.5 rounded-lg ${
@@ -675,6 +673,8 @@ const renderPerformancePage = () => (
               rank={awarenessData.rank}
               icon={BarChart3}
               label="Brand Awareness"
+              // Pass custom color for score
+              scoreColor="#318E99"
             />
           </div>
         </div>
@@ -692,6 +692,7 @@ const renderPerformancePage = () => (
               trend={sovData.trend}
               icon={PieChart}
               label="Share of Voice"
+              scoreColor="#318E99"
             />
           </div>
         </div>
@@ -713,6 +714,7 @@ const renderPerformancePage = () => (
               competitors={competitors} 
               title="Market Leaders" 
               subtitle="Top performing competitors"
+              scoreColor="#318E99"
             />
           </div>
         </div>
@@ -731,6 +733,7 @@ const renderPerformancePage = () => (
               competitors={otherBrands} 
               title="Emerging Brands" 
               subtitle="Rising competitors to monitor"
+              scoreColor="#318E99"
             />
           </div>
         </div>
@@ -902,8 +905,8 @@ const renderPerformancePage = () => (
             
             <CardContent className="p-6 relative z-10">
               <div className="flex items-start justify-between mb-4">
-                <div className="p-3 rounded-xl bg-gradient-to-br from-primary/20 to-primary/10 group-hover:from-primary/30 group-hover:to-primary/20 transition-all duration-500 group-hover:scale-110 group-hover:rotate-3">
-                  <metric.icon className="w-6 h-6 text-primary transition-all duration-500 group-hover:text-white" />
+                <div className="p-3 rounded-xl bg-gradient-to-br from-[#26A9E0]/20 to-[#26A9E0]/10 group-hover:from-[#26A9E0]/30 group-hover:to-[#26A9E0]/20 transition-all duration-500 group-hover:scale-110 group-hover:rotate-3">
+                  <metric.icon className="w-6 h-6" style={{ color: "#26A9E0" }} />
                 </div>
                 <div className={`flex items-center space-x-2 text-sm transition-all duration-300 ${
                   metric.trend === "up" ? "text-green-600" : "text-red-600"
@@ -921,7 +924,10 @@ const renderPerformancePage = () => (
 
               <div className="space-y-4">
                 <div>
-                  <h3 className="text-3xl font-black bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent animate-count-up">
+                  <h3
+                    className="text-3xl font-black animate-count-up"
+                    style={{ color: "#26A9E0" }}
+                  >
                     {typeof metric.value === 'number' ? metric.value.toLocaleString() : metric.value}
                     {metric.title.includes('Dominance') || metric.title.includes('Sentiment') || metric.title.includes('Coverage') ? '%' : ''}
                   </h3>
@@ -939,9 +945,9 @@ const renderPerformancePage = () => (
                         <stop offset="100%" stopColor="currentColor" stopOpacity="0.6" />
                       </linearGradient>
                       <linearGradient id={`sparklineStroke${index}`} x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stopColor="#3b82f6" />
-                        <stop offset="50%" stopColor="#8b5cf6" />
-                        <stop offset="100%" stopColor="#ec4899" />
+                        <stop offset="0%" stopColor="#26A9E0" />
+                        <stop offset="50%" stopColor="#26A9E0" />
+                        <stop offset="100%" stopColor="#26A9E0" />
                       </linearGradient>
                     </defs>
                     
@@ -990,7 +996,7 @@ const renderPerformancePage = () => (
                           cy={y}
                           r="2"
                           fill="white"
-                          stroke="currentColor"
+                          stroke="#26A9E0"
                           strokeWidth="2"
                           className="text-primary opacity-0 transition-all duration-300"
                           style={{
@@ -1027,152 +1033,152 @@ const renderPerformancePage = () => (
       <div className="grid grid-cols-1 xl:grid-cols-7 gap-8">
         
         {/* Multi-dimensional Brand Performance Radar */}
-          <Card className="xl:col-span-4 relative overflow-hidden animate-fade-in-up animation-delay-200">
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-purple-500/5 to-pink-500/5" />
-      <CardHeader className="pb-6 relative z-10">
+        <Card className="xl:col-span-4 relative overflow-hidden animate-fade-in-up animation-delay-200">
+          <div className="absolute inset-0 bg-gradient-to-br from-[#26A9E0]/5 via-[#26A9E0]/5 to-[#26A9E0]/5" />
+          <CardHeader className="pb-6 relative z-10">
         <div className="flex items-center justify-between">
           <div>
-            <CardTitle className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              Brand Performance Matrix
+            <CardTitle className="text-xl font-bold bg-gradient-to-r from-[#26A9E0] to-[#26A9E0] bg-clip-text text-transparent">
+          Brand Performance Matrix
             </CardTitle>
             <p className="text-muted-foreground">360° competitive analysis across all dimensions</p>
           </div>
           <div className="flex items-center space-x-3">
-            <Badge variant="outline" className="animate-pulse bg-green-500/10 border-green-500/50 text-green-700">
-              <div className="w-2 h-2 bg-green-500 rounded-full mr-2 animate-ping" />
-              Real-time
+            <Badge variant="outline" className="animate-pulse bg-[#26A9E0]/10 border-[#26A9E0]/50 text-[#26A9E0]">
+          <div className="w-2 h-2 bg-[#26A9E0] rounded-full mr-2 animate-ping" />
+          Real-time
             </Badge>
             <Select defaultValue="awareness">
-              <SelectTrigger className="w-36 border-primary/20 hover:border-primary/50 transition-all duration-300">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="awareness">Brand Awareness</SelectItem>
-                <SelectItem value="consideration">Consideration</SelectItem>
-                <SelectItem value="preference">Purchase Intent</SelectItem>
-                <SelectItem value="loyalty">Brand Loyalty</SelectItem>
-              </SelectContent>
+          <SelectTrigger className="w-36 border-[#26A9E0]/20 hover:border-[#26A9E0]/50 transition-all duration-300">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="awareness">Brand Awareness</SelectItem>
+            <SelectItem value="consideration">Consideration</SelectItem>
+            <SelectItem value="preference">Purchase Intent</SelectItem>
+            <SelectItem value="loyalty">Brand Loyalty</SelectItem>
+          </SelectContent>
             </Select>
           </div>
         </div>
-      </CardHeader>
-      <CardContent className="pb-8 relative z-10">
+          </CardHeader>
+          <CardContent className="pb-8 relative z-10">
         
         {/* Custom Radar Chart - FIXED */}
         <div className="relative w-full h-96 mb-8">
           <svg className="w-full h-full" viewBox="0 0 400 400">
             <defs>
-              <radialGradient id="radarBg" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stopColor="hsl(224 71% 54%)" stopOpacity="0.2" />
-                <stop offset="50%" stopColor="hsl(224 71% 54%)" stopOpacity="0.1" />
-                <stop offset="100%" stopColor="transparent" />
-              </radialGradient>
-              <filter id="glow">
-                <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-                <feMerge> 
-                  <feMergeNode in="coloredBlur"/>
-                  <feMergeNode in="SourceGraphic"/>
-                </feMerge>
-              </filter>
+          <radialGradient id="radarBg" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="#26A9E0" stopOpacity="0.2" />
+            <stop offset="50%" stopColor="#26A9E0" stopOpacity="0.1" />
+            <stop offset="100%" stopColor="transparent" />
+          </radialGradient>
+          <filter id="glow">
+            <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+            <feMerge> 
+              <feMergeNode in="coloredBlur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
             </defs>
             
             {/* Grid circles */}
             {[60, 120, 180].map((radius) => (
-              <circle
-                key={radius}
-                cx="200"
-                cy="200"
-                r={radius}
-                fill="none"
-                stroke="hsl(214 15% 78%)"
-                strokeWidth="1"
-                strokeDasharray="2,2"
-                opacity="0.5"
-              />
+          <circle
+            key={radius}
+            cx="200"
+            cy="200"
+            r={radius}
+            fill="none"
+            stroke="#26A9E0"
+            strokeWidth="1"
+            strokeDasharray="2,2"
+            opacity="0.5"
+          />
             ))}
             
             {/* Grid lines and labels */}
             {['Adventure', 'Family', 'Luxury', 'Performance', 'Value', 'Reliability'].map((segment, index) => {
-              const angle = (index * 60 - 90) * (Math.PI / 180);
-              const x2 = 200 + Math.cos(angle) * 180;
-              const y2 = 200 + Math.sin(angle) * 180;
-              const labelX = 200 + Math.cos(angle) * 210;
-              const labelY = 200 + Math.sin(angle) * 210;
-              
-              return (
-                <g key={segment}>
-                  <line
-                    x1="200"
-                    y1="200"
-                    x2={x2}
-                    y2={y2}
-                    stroke="hsl(214 15% 78%)"
-                    strokeWidth="1"
-                    opacity="0.4"
-                  />
-                  <text
-                    x={labelX}
-                    y={labelY}
-                    textAnchor="middle"
-                    dominantBaseline="middle"
-                    className="text-sm font-semibold fill-foreground"
-                  >
-                    {segment}
-                  </text>
-                </g>
-              );
+          const angle = (index * 60 - 90) * (Math.PI / 180);
+          const x2 = 200 + Math.cos(angle) * 180;
+          const y2 = 200 + Math.sin(angle) * 180;
+          const labelX = 200 + Math.cos(angle) * 210;
+          const labelY = 200 + Math.sin(angle) * 210;
+          
+          return (
+            <g key={segment}>
+              <line
+            x1="200"
+            y1="200"
+            x2={x2}
+            y2={y2}
+            stroke="#26A9E0"
+            strokeWidth="1"
+            opacity="0.4"
+              />
+              <text
+            x={labelX}
+            y={labelY}
+            textAnchor="middle"
+            dominantBaseline="middle"
+            className="text-sm font-semibold fill-foreground"
+              >
+            {segment}
+              </text>
+            </g>
+          );
             })}
             
             {/* Jeep performance polygon - FIXED */}
             <polygon
-              points={[82, 67, 43, 71, 56, 78].map((score, index) => {
-                const angle = (index * 60 - 90) * (Math.PI / 180);
-                const radius = (score / 100) * 180;
-                const x = 200 + Math.cos(angle) * radius;
-                const y = 200 + Math.sin(angle) * radius;
-                return `${x},${y}`;
-              }).join(' ')}
-              fill="url(#radarBg)"
-              stroke="hsl(224 71% 54%)"
-              strokeWidth="3"
-              filter="url(#glow)"
-              opacity="0.8"
+          points={[82, 67, 43, 71, 56, 78].map((score, index) => {
+            const angle = (index * 60 - 90) * (Math.PI / 180);
+            const radius = (score / 100) * 180;
+            const x = 200 + Math.cos(angle) * radius;
+            const y = 200 + Math.sin(angle) * radius;
+            return `${x},${y}`;
+          }).join(' ')}
+          fill="url(#radarBg)"
+          stroke="#26A9E0"
+          strokeWidth="3"
+          filter="url(#glow)"
+          opacity="0.8"
             />
             
             {/* Data points - FIXED */}
             {[82, 67, 43, 71, 56, 78].map((score, index) => {
-              const angle = (index * 60 - 90) * (Math.PI / 180);
-              const radius = (score / 100) * 180;
-              const x = 200 + Math.cos(angle) * radius;
-              const y = 200 + Math.sin(angle) * radius;
-              
-              return (
-                <g key={index}>
-                  <circle
-                    cx={x}
-                    cy={y}
-                    r="6"
-                    fill="white"
-                    stroke="hsl(224 71% 54%)"
-                    strokeWidth="3"
-                    filter="url(#glow)"
-                    className="cursor-pointer hover:scale-125 transition-all duration-300"
-                  />
-                  <text
-                    x={x}
-                    y={y - 15}
-                    textAnchor="middle"
-                    className="text-xs font-bold fill-primary"
-                  >
-                    {score}%
-                  </text>
-                </g>
-              );
+          const angle = (index * 60 - 90) * (Math.PI / 180);
+          const radius = (score / 100) * 180;
+          const x = 200 + Math.cos(angle) * radius;
+          const y = 200 + Math.sin(angle) * radius;
+          
+          return (
+            <g key={index}>
+              <circle
+            cx={x}
+            cy={y}
+            r="6"
+            fill="white"
+            stroke="#26A9E0"
+            strokeWidth="3"
+            filter="url(#glow)"
+            className="cursor-pointer hover:scale-125 transition-all duration-300"
+              />
+              <text
+            x={x}
+            y={y - 15}
+            textAnchor="middle"
+            className="text-xs font-bold fill-primary"
+              >
+            {score}%
+              </text>
+            </g>
+          );
             })}
           </svg>
           
           {/* Center logo - FIXED positioning */}
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-16 h-16 bg-gradient-to-br from-primary to-purple-600 rounded-full flex items-center justify-center shadow-xl">
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-16 h-16 bg-gradient-to-br from-[#26A9E0] to-[#26A9E0] rounded-full flex items-center justify-center shadow-xl">
             <span className="text-white font-bold text-xl">J</span>
           </div>
         </div>
@@ -1180,68 +1186,68 @@ const renderPerformancePage = () => (
         {/* Competitive Benchmarks - FIXED */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           {[
-            { competitor: "Ford Bronco", scores: [75, 78, 89, 83, 72, 76], color: "#3b82f6", trend: "declining" },
-            { competitor: "Toyota 4Runner", scores: [68, 71, 84, 79, 85, 82], color: "#ef4444", trend: "stable" },
-            { competitor: "Land Rover", scores: [45, 52, 89, 87, 45, 78], color: "#22c55e", trend: "growing" }
+            { competitor: "Ford Bronco", scores: [75, 78, 89, 83, 72, 76], color: "#26A9E0", trend: "declining" },
+            { competitor: "Toyota 4Runner", scores: [68, 71, 84, 79, 85, 82], color: "#26A9E0", trend: "stable" },
+            { competitor: "Land Rover", scores: [45, 52, 89, 87, 45, 78], color: "#26A9E0", trend: "growing" }
           ].map((comp, compIndex) => (
             <div key={comp.competitor} className="p-4 rounded-xl bg-muted/30 hover:bg-muted/50 transition-all duration-500 hover:scale-105">
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center space-x-2">
-                  <div className={`w-3 h-3 rounded-full`} style={{ backgroundColor: comp.color }} />
-                  <span className="font-semibold text-sm">{comp.competitor}</span>
-                </div>
-                <Badge variant={comp.trend === 'growing' ? 'default' : comp.trend === 'declining' ? 'destructive' : 'secondary'} className="text-xs">
-                  {comp.trend}
-                </Badge>
-              </div>
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center space-x-2">
+              <div className={`w-3 h-3 rounded-full`} style={{ backgroundColor: comp.color }} />
+              <span className="font-semibold text-sm">{comp.competitor}</span>
+            </div>
+            <Badge variant={comp.trend === 'growing' ? 'default' : comp.trend === 'declining' ? 'destructive' : 'secondary'} className="text-xs">
+              {comp.trend}
+            </Badge>
+          </div>
+          
+          {/* Mini radar preview - FIXED */}
+          <div className="w-full h-20 relative mb-3">
+            <svg className="w-full h-full" viewBox="0 0 100 80">
+              <polygon
+            points={comp.scores.map((score, index) => {
+              const angle = (index * 60 - 90) * (Math.PI / 180);
+              const radius = (score / 100) * 30;
+              const x = 50 + Math.cos(angle) * radius;
+              const y = 40 + Math.sin(angle) * radius;
+              return `${x},${y}`;
+            }).join(' ')}
+            fill={comp.color}
+            fillOpacity="0.2"
+            stroke={comp.color}
+            strokeWidth="1.5"
+              />
               
-              {/* Mini radar preview - FIXED */}
-              <div className="w-full h-20 relative mb-3">
-                <svg className="w-full h-full" viewBox="0 0 100 80">
-                  <polygon
-                    points={comp.scores.map((score, index) => {
-                      const angle = (index * 60 - 90) * (Math.PI / 180);
-                      const radius = (score / 100) * 30;
-                      const x = 50 + Math.cos(angle) * radius;
-                      const y = 40 + Math.sin(angle) * radius;
-                      return `${x},${y}`;
-                    }).join(' ')}
-                    fill={comp.color}
-                    fillOpacity="0.2"
-                    stroke={comp.color}
-                    strokeWidth="1.5"
-                  />
-                  
-                  {/* Data points for mini radar */}
-                  {comp.scores.map((score, index) => {
-                    const angle = (index * 60 - 90) * (Math.PI / 180);
-                    const radius = (score / 100) * 30;
-                    const x = 50 + Math.cos(angle) * radius;
-                    const y = 40 + Math.sin(angle) * radius;
-                    return (
-                      <circle
-                        key={index}
-                        cx={x}
-                        cy={y}
-                        r="2"
-                        fill={comp.color}
-                      />
-                    );
-                  })}
-                </svg>
-              </div>
-              
-              <div className="text-xs text-muted-foreground">
-                Avg Score: <span className="font-semibold text-foreground">
-                  {Math.round(comp.scores.reduce((a, b) => a + b) / comp.scores.length)}%
-                </span>
-              </div>
+              {/* Data points for mini radar */}
+              {comp.scores.map((score, index) => {
+            const angle = (index * 60 - 90) * (Math.PI / 180);
+            const radius = (score / 100) * 30;
+            const x = 50 + Math.cos(angle) * radius;
+            const y = 40 + Math.sin(angle) * radius;
+            return (
+              <circle
+                key={index}
+                cx={x}
+                cy={y}
+                r="2"
+                fill={comp.color}
+              />
+            );
+              })}
+            </svg>
+          </div>
+          
+          <div className="text-xs text-muted-foreground">
+            Avg Score: <span className="font-semibold text-foreground">
+              {Math.round(comp.scores.reduce((a, b) => a + b) / comp.scores.length)}%
+            </span>
+          </div>
             </div>
           ))}
         </div>
-      </CardContent>
+          </CardContent>
 
-      <style jsx>{`
+          <style jsx>{`
         @keyframes fadeInUp {
           from {
             opacity: 0;
@@ -1284,151 +1290,142 @@ const renderPerformancePage = () => (
             opacity: .5;
           }
         }
-      `}</style>
-    </Card>
+          `}</style>
+        </Card>
         {/* Real-time Mention Heatmap */}
         <Card className="xl:col-span-3 relative overflow-hidden animate-fade-in-up animation-delay-400">
-          <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 via-emerald-500/5 to-teal-500/5" />
+          <div className="absolute inset-0 bg-gradient-to-br from-[#26A9E0]/5 via-[#26A9E0]/5 to-[#26A9E0]/5" />
           <CardHeader className="pb-4 relative z-10">
-            <div className="flex items-center justify-between">
-              <div>
-                <CardTitle className="text-lg font-bold bg-gradient-to-r from-green-600 to-teal-600 bg-clip-text text-transparent">
-                  Live Mention Heatmap
-                </CardTitle>
-                <p className="text-sm text-muted-foreground">Real-time brand conversations</p>
-              </div>
-              <div className="flex items-center space-x-2">
-                <div className="w-3 h-3 bg-green-500 rounded-full animate-ping" />
-                <div className="w-3 h-3 bg-green-500 rounded-full absolute animate-pulse" />
-                <span className="text-xs font-bold text-green-600 ml-2">LIVE</span>
-              </div>
-            </div>
+        <div className="flex items-center justify-between">
+          <div>
+            <CardTitle className="text-lg font-bold bg-gradient-to-r from-[#26A9E0] to-[#26A9E0] bg-clip-text text-transparent">
+          Live Mention Heatmap
+            </CardTitle>
+            <p className="text-sm text-muted-foreground">Real-time brand conversations</p>
+          </div>
+          <div className="flex items-center space-x-2">
+            <div className="w-3 h-3 bg-[#26A9E0] rounded-full animate-ping" />
+            <div className="w-3 h-3 bg-[#26A9E0] rounded-full absolute animate-pulse" />
+            <span className="text-xs font-bold text-[#26A9E0] ml-2">LIVE</span>
+          </div>
+        </div>
           </CardHeader>
           <CardContent className="p-6 relative z-10">
+        
+        {/* Platform Activity Grid */}
+        <div className="grid grid-cols-2 gap-4 mb-6">
+          {[
+            { platform: "ChatGPT", mentions: 1247, intensity: 85, color: "#26A9E0" },
+            { platform: "Claude", mentions: 892, intensity: 67, color: "#26A9E0" },
+            { platform: "Gemini", mentions: 456, intensity: 45, color: "#26A9E0" },
+            { platform: "Perplexity", mentions: 252, intensity: 28, color: "#26A9E0" }
+          ].map((platform, index) => (
+            <div key={platform.platform} className="relative p-4 rounded-xl bg-gradient-to-br from-muted/50 to-muted/20 hover:scale-105 transition-all duration-500 group animate-scale-in cursor-pointer" style={{ animationDelay: `${index * 150}ms` }}>
+          
+          {/* Intensity visualization */}
+          <div className="absolute inset-0 rounded-xl opacity-20 group-hover:opacity-30 transition-opacity duration-500" 
+               style={{ backgroundColor: platform.color }} />
+          
+          <div className="relative z-10 space-y-3">
+            <div className="flex items-center justify-between">
+              <div className="w-8 h-8 rounded-lg flex items-center justify-center text-white text-sm font-bold" 
+               style={{ backgroundColor: platform.color }}>
+            {platform.platform[0]}
+              </div>
+              <div className="text-right">
+            <div className="text-lg font-bold animate-count-up">{platform.mentions}</div>
+            <div className="text-xs text-muted-foreground">mentions</div>
+              </div>
+            </div>
             
-            {/* Platform Activity Grid */}
-            <div className="grid grid-cols-2 gap-4 mb-6">
-              {[
-                { platform: "ChatGPT", mentions: 1247, intensity: 85, color: "#10b981" },
-                { platform: "Claude", mentions: 892, intensity: 67, color: "#3b82f6" },
-                { platform: "Gemini", mentions: 456, intensity: 45, color: "#f59e0b" },
-                { platform: "Perplexity", mentions: 252, intensity: 28, color: "#ef4444" }
-              ].map((platform, index) => (
-                <div key={platform.platform} className="relative p-4 rounded-xl bg-gradient-to-br from-muted/50 to-muted/20 hover:scale-105 transition-all duration-500 group animate-scale-in cursor-pointer" style={{ animationDelay: `${index * 150}ms` }}>
-                  
-                  {/* Intensity visualization */}
-                  <div className="absolute inset-0 rounded-xl opacity-20 group-hover:opacity-30 transition-opacity duration-500" 
-                       style={{ backgroundColor: platform.color }} />
-                  
-                  <div className="relative z-10 space-y-3">
-                    <div className="flex items-center justify-between">
-                      <div className="w-8 h-8 rounded-lg flex items-center justify-center text-white text-sm font-bold" 
-                           style={{ backgroundColor: platform.color }}>
-                        {platform.platform[0]}
-                      </div>
-                      <div className="text-right">
-                        <div className="text-lg font-bold animate-count-up">{platform.mentions}</div>
-                        <div className="text-xs text-muted-foreground">mentions</div>
-                      </div>
-                    </div>
-                    
-                    <div>
-                      <div className="text-sm font-semibold mb-1">{platform.platform}</div>
-                      <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
-                        <div 
-                          className="h-full rounded-full animate-progress-fill transition-all duration-1000"
-                          style={{ 
-                            backgroundColor: platform.color,
-                            width: `${platform.intensity}%`,
-                            animationDelay: `${index * 150 + 300}ms`
-                          }}
-                        />
-                      </div>
-                      <div className="text-xs text-muted-foreground mt-1">
-                        Activity: {platform.intensity}%
-                      </div>
-                    </div>
-                  </div>
-                  
-                  {/* Pulse effect for high activity */}
-                  {platform.intensity > 70 && (
-                    <div className="absolute inset-0 rounded-xl border-2 border-green-400 animate-ping opacity-30" />
-                  )}
-                </div>
-              ))}
+            <div>
+              <div className="text-sm font-semibold mb-1">{platform.platform}</div>
+              <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
+            <div 
+              className="h-full rounded-full animate-progress-fill transition-all duration-1000"
+              style={{ 
+                backgroundColor: platform.color,
+                width: `${platform.intensity}%`,
+                animationDelay: `${index * 150 + 300}ms`
+              }}
+            />
+              </div>
+              <div className="text-xs text-muted-foreground mt-1">
+            Activity: {platform.intensity}%
+              </div>
             </div>
+          </div>
+          
+          {/* Pulse effect for high activity */}
+          {platform.intensity > 70 && (
+            <div className="absolute inset-0 rounded-xl border-2 border-[#26A9E0] animate-ping opacity-30" />
+          )}
+            </div>
+          ))}
+        </div>
 
-            {/* Live Activity Stream */}
-            <div className="space-y-3 max-h-80 overflow-y-auto pr-2">
-              <h4 className="font-semibold text-sm text-muted-foreground uppercase tracking-wider mb-3">
-                Recent Activity
-              </h4>
-              
-              {[
-                { platform: "ChatGPT", query: "Best off-road SUV for family adventures", sentiment: "positive", time: "12s ago", urgency: "high" },
-                { platform: "Claude", query: "Jeep Wrangler vs Bronco reliability comparison", sentiment: "neutral", time: "34s ago", urgency: "medium" },
-                { platform: "Gemini", query: "Most reliable 4x4 vehicles under $50k", sentiment: "mixed", time: "1m ago", urgency: "low" },
-                { platform: "ChatGPT", query: "Jeep Grand Cherokee towing capacity", sentiment: "positive", time: "2m ago", urgency: "medium" },
-                { platform: "Perplexity", query: "Best SUV for winter driving conditions", sentiment: "positive", time: "3m ago", urgency: "high" }
-              ].map((mention, index) => (
-                <div 
-                  key={index} 
-                  className={`p-3 rounded-lg transition-all duration-500 hover:scale-[1.02] cursor-pointer animate-slide-in-right group ${
-                    mention.urgency === 'high' ? 'bg-red-50 border-l-4 border-red-400 hover:bg-red-100' :
-                    mention.urgency === 'medium' ? 'bg-yellow-50 border-l-4 border-yellow-400 hover:bg-yellow-100' :
-                    'bg-muted/30 border-l-4 border-muted-foreground/20 hover:bg-muted/50'
-                  }`}
-                  style={{ animationDelay: `${index * 100}ms` }}
-                >
-                  <div className="flex items-start justify-between mb-2">
-                    <div className="flex items-center space-x-2">
-                      <Badge 
-                        variant="outline" 
-                        className={`text-xs ${
-                          mention.platform === 'ChatGPT' ? 'border-green-400 text-green-700' :
-                          mention.platform === 'Claude' ? 'border-blue-400 text-blue-700' :
-                          mention.platform === 'Gemini' ? 'border-yellow-400 text-yellow-700' :
-                          'border-red-400 text-red-700'
-                        }`}
-                      >
-                        {mention.platform}
-                      </Badge>
-                      <div className={`w-2 h-2 rounded-full ${
-                        mention.sentiment === "positive" ? "bg-green-500 animate-pulse" : 
-                        mention.sentiment === "negative" ? "bg-red-500 animate-pulse" : 
-                        "bg-yellow-500 animate-pulse"
-                      }`} />
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      {mention.urgency === 'high' && (
-                        <div className="w-2 h-2 bg-red-500 rounded-full animate-ping" />
-                      )}
-                      <span className="text-xs text-muted-foreground">{mention.time}</span>
-                    </div>
-                  </div>
-                  
-                  <p className="text-sm font-medium line-clamp-2 text-primary transition-colors duration-300">
-                    {mention.query}
-                  </p>
-                  
-                  <div className="flex items-center justify-between mt-2">
-                    <Badge 
-                      variant="secondary" 
-                      className={`text-xs ${
-                        mention.sentiment === 'positive' ? 'bg-green-100 text-green-700' :
-                        mention.sentiment === 'negative' ? 'bg-red-100 text-red-700' :
-                        'bg-yellow-100 text-yellow-700'
-                      }`}
-                    >
-                      {mention.sentiment}
-                    </Badge>
-                    <Button variant="ghost" size="sm" className="h-5 px-2 text-xs opacity-0 group-hover:opacity-100 transition-all duration-300 hover:scale-110">
-                      <ExternalLink className="w-3 h-3" />
-                    </Button>
-                  </div>
-                </div>
-              ))}
+        {/* Live Activity Stream */}
+        <div className="space-y-3 max-h-80 overflow-y-auto pr-2">
+          <h4 className="font-semibold text-sm text-muted-foreground uppercase tracking-wider mb-3">
+            Recent Activity
+          </h4>
+          
+          {[
+            { platform: "ChatGPT", query: "Best off-road SUV for family adventures", sentiment: "positive", time: "12s ago", urgency: "high" },
+            { platform: "Claude", query: "Jeep Wrangler vs Bronco reliability comparison", sentiment: "neutral", time: "34s ago", urgency: "medium" },
+            { platform: "Gemini", query: "Most reliable 4x4 vehicles under $50k", sentiment: "mixed", time: "1m ago", urgency: "low" },
+            { platform: "ChatGPT", query: "Jeep Grand Cherokee towing capacity", sentiment: "positive", time: "2m ago", urgency: "medium" },
+            { platform: "Perplexity", query: "Best SUV for winter driving conditions", sentiment: "positive", time: "3m ago", urgency: "high" }
+          ].map((mention, index) => (
+            <div 
+          key={index} 
+          className={`p-3 rounded-lg transition-all duration-500 hover:scale-[1.02] cursor-pointer animate-slide-in-right group ${
+            mention.urgency === 'high' ? 'bg-red-50 border-l-4 border-[#26A9E0] hover:bg-red-100' :
+            mention.urgency === 'medium' ? 'bg-yellow-50 border-l-4 border-[#26A9E0] hover:bg-yellow-100' :
+            'bg-muted/30 border-l-4 border-muted-foreground/20 hover:bg-muted/50'
+          }`}
+          style={{ animationDelay: `${index * 100}ms` }}
+            >
+          <div className="flex items-start justify-between mb-2">
+            <div className="flex items-center space-x-2">
+              <Badge 
+            variant="outline" 
+            className={`text-xs border-[#26A9E0] text-[#26A9E0]`}
+              >
+            {mention.platform}
+              </Badge>
+              <div className={`w-2 h-2 rounded-full ${
+            mention.sentiment === "positive" ? "bg-[#26A9E0] animate-pulse" : 
+            mention.sentiment === "negative" ? "bg-[#26A9E0] animate-pulse" : 
+            "bg-[#26A9E0] animate-pulse"
+              }`} />
             </div>
+            <div className="flex items-center space-x-2">
+              {mention.urgency === 'high' && (
+            <div className="w-2 h-2 bg-[#26A9E0] rounded-full animate-ping" />
+              )}
+              <span className="text-xs text-muted-foreground">{mention.time}</span>
+            </div>
+          </div>
+          
+          <p className="text-sm font-medium line-clamp-2 text-primary transition-colors duration-300">
+            {mention.query}
+          </p>
+          
+          <div className="flex items-center justify-between mt-2">
+            <Badge 
+              variant="secondary" 
+              className={`text-xs bg-[#26A9E0]/10 text-[#26A9E0]`}
+            >
+              {mention.sentiment}
+            </Badge>
+            <Button variant="ghost" size="sm" className="h-5 px-2 text-xs opacity-0 group-hover:opacity-100 transition-all duration-300 hover:scale-110">
+              <ExternalLink className="w-3 h-3" />
+            </Button>
+          </div>
+            </div>
+          ))}
+        </div>
           </CardContent>
         </Card>
       </div>
@@ -1438,17 +1435,17 @@ const renderPerformancePage = () => (
         
         {/* AI-Powered Sentiment Analysis */}
         <Card className="relative overflow-hidden animate-fade-in-up animation-delay-600">
-          <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 via-pink-500/5 to-rose-500/5" />
+          <div className="absolute inset-0 bg-gradient-to-br from-[#26A9E0]/5 via-[#26A9E0]/5 to-[#26A9E0]/5" />
           <CardHeader className="pb-4 relative z-10">
             <div className="flex items-center space-x-2">
-              <div className="p-2 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500">
-                <Sparkles className="w-5 h-5 text-white" />
+              <div className="p-2 rounded-lg bg-gradient-to-br from-[#26A9E0] to-[#26A9E0]">
+          <Sparkles className="w-5 h-5 text-white" />
               </div>
               <div>
-                <CardTitle className="text-lg font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-                  AI Sentiment Analysis
-                </CardTitle>
-                <p className="text-sm text-muted-foreground">Advanced emotion detection</p>
+          <CardTitle className="text-lg font-bold bg-gradient-to-r from-[#26A9E0] to-[#26A9E0] bg-clip-text text-transparent">
+            AI Sentiment Analysis
+          </CardTitle>
+          <p className="text-sm text-muted-foreground">Advanced emotion detection</p>
               </div>
             </div>
           </CardHeader>
@@ -1457,117 +1454,117 @@ const renderPerformancePage = () => (
             {/* Sentiment Wheel */}
             <div className="relative w-48 h-48 mx-auto mb-6">
               <svg className="w-full h-full" viewBox="0 0 200 200">
-                <defs>
-                  <linearGradient id="positiveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stopColor="#10b981" />
-                    <stop offset="100%" stopColor="#34d399" />
-                  </linearGradient>
-                  <linearGradient id="neutralGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stopColor="#f59e0b" />
-                    <stop offset="100%" stopColor="#fbbf24" />
-                  </linearGradient>
-                  <linearGradient id="negativeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stopColor="#ef4444" />
-                    <stop offset="100%" stopColor="#f87171" />
-                  </linearGradient>
-                </defs>
-                
-                {/* Sentiment arcs */}
-                {[
-                  { sentiment: 'Positive', percentage: 78, color: 'url(#positiveGradient)', startAngle: 0 },
-                  { sentiment: 'Neutral', percentage: 18, color: 'url(#neutralGradient)', startAngle: 78 },
-                  { sentiment: 'Negative', percentage: 4, color: 'url(#negativeGradient)', startAngle: 96 }
-                ].map((item, index) => {
-                  const circumference = 2 * Math.PI * 70;
-                  const offset = circumference - (item.percentage / 100) * circumference;
-                  
-                  return (
-                    <circle
-                      key={item.sentiment}
-                      cx="100"
-                      cy="100"
-                      r="70"
-                      fill="none"
-                      stroke={item.color}
-                      strokeWidth="20"
-                      strokeDasharray={circumference}
-                      strokeDashoffset={offset}
-                      strokeLinecap="round"
-                      transform={`rotate(${item.startAngle * 3.6 - 90} 100 100)`}
-                      className="transition-all duration-2000 ease-out"
-                      style={{
-                        animation: `sentimentArc 2s ease-out ${index * 0.3}s forwards`
-                      }}
-                    />
-                  );
-                })}
-                
-                {/* Center circle with overall score */}
-                <circle
-                  cx="100"
-                  cy="100"
-                  r="45"
-                  fill="white"
-                  stroke="hsl(var(--border))"
-                  strokeWidth="2"
-                  className="drop-shadow-lg"
-                />
-                <text
-                  x="100"
-                  y="90"
-                  textAnchor="middle"
-                  className="text-2xl font-black fill-primary"
-                >
-                  78.5
-                </text>
-                <text
-                  x="100"
-                  y="110"
-                  textAnchor="middle"
-                  className="text-xs font-medium fill-muted-foreground"
-                >
-                  SENTIMENT
-                </text>
+          <defs>
+            <linearGradient id="positiveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#26A9E0" />
+              <stop offset="100%" stopColor="#26A9E0" />
+            </linearGradient>
+            <linearGradient id="neutralGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#26A9E0" />
+              <stop offset="100%" stopColor="#26A9E0" />
+            </linearGradient>
+            <linearGradient id="negativeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#26A9E0" />
+              <stop offset="100%" stopColor="#26A9E0" />
+            </linearGradient>
+          </defs>
+          
+          {/* Sentiment arcs */}
+          {[
+            { sentiment: 'Positive', percentage: 78, color: 'url(#positiveGradient)', startAngle: 0 },
+            { sentiment: 'Neutral', percentage: 18, color: 'url(#neutralGradient)', startAngle: 78 },
+            { sentiment: 'Negative', percentage: 4, color: 'url(#negativeGradient)', startAngle: 96 }
+          ].map((item, index) => {
+            const circumference = 2 * Math.PI * 70;
+            const offset = circumference - (item.percentage / 100) * circumference;
+            
+            return (
+              <circle
+                key={item.sentiment}
+                cx="100"
+                cy="100"
+                r="70"
+                fill="none"
+                stroke={item.color}
+                strokeWidth="20"
+                strokeDasharray={circumference}
+                strokeDashoffset={offset}
+                strokeLinecap="round"
+                transform={`rotate(${item.startAngle * 3.6 - 90} 100 100)`}
+                className="transition-all duration-2000 ease-out"
+                style={{
+            animation: `sentimentArc 2s ease-out ${index * 0.3}s forwards`
+                }}
+              />
+            );
+          })}
+          
+          {/* Center circle with overall score */}
+          <circle
+            cx="100"
+            cy="100"
+            r="45"
+            fill="white"
+            stroke="hsl(var(--border))"
+            strokeWidth="2"
+            className="drop-shadow-lg"
+          />
+          <text
+            x="100"
+            y="90"
+            textAnchor="middle"
+            className="text-2xl font-black fill-primary"
+          >
+            78.5
+          </text>
+          <text
+            x="100"
+            y="110"
+            textAnchor="middle"
+            className="text-xs font-medium fill-muted-foreground"
+          >
+            SENTIMENT
+          </text>
               </svg>
             </div>
 
             {/* Sentiment breakdown */}
             <div className="space-y-3">
               {[
-                { label: "Positive", value: 78, color: "bg-green-500", textColor: "text-green-700" },
-                { label: "Neutral", value: 18, color: "bg-yellow-500", textColor: "text-yellow-700" },
-                { label: "Negative", value: 4, color: "bg-red-500", textColor: "text-red-700" }
+          { label: "Positive", value: 78, color: "bg-[#26A9E0]", textColor: "text-[#26A9E0]" },
+          { label: "Neutral", value: 18, color: "bg-[#26A9E0]", textColor: "text-[#26A9E0]" },
+          { label: "Negative", value: 4, color: "bg-[#26A9E0]", textColor: "text-[#26A9E0]" }
               ].map((item, index) => (
-                <div key={item.label} className="flex items-center space-x-3 animate-slide-in-left" style={{ animationDelay: `${index * 200}ms` }}>
-                  <div className={`w-3 h-3 ${item.color} rounded-full animate-pulse`} />
-                  <div className="flex-1">
-                    <div className="flex items-center justify-between mb-1">
-                      <span className="text-sm font-medium">{item.label}</span>
-                      <span className={`text-sm font-bold ${item.textColor}`}>{item.value}%</span>
-                    </div>
-                    <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
-                      <div 
-                        className={`h-full ${item.color} rounded-full animate-progress-fill`}
-                        style={{ 
-                          width: `${item.value}%`,
-                          animationDelay: `${index * 200 + 500}ms`
-                        }}
-                      />
-                    </div>
-                  </div>
-                </div>
+          <div key={item.label} className="flex items-center space-x-3 animate-slide-in-left" style={{ animationDelay: `${index * 200}ms` }}>
+            <div className={`w-3 h-3 ${item.color} rounded-full animate-pulse`} />
+            <div className="flex-1">
+              <div className="flex items-center justify-between mb-1">
+                <span className="text-sm font-medium">{item.label}</span>
+                <span className={`text-sm font-bold ${item.textColor}`}>{item.value}%</span>
+              </div>
+              <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
+                <div 
+            className={`h-full ${item.color} rounded-full animate-progress-fill`}
+            style={{ 
+              width: `${item.value}%`,
+              animationDelay: `${index * 200 + 500}ms`
+            }}
+                />
+              </div>
+            </div>
+          </div>
               ))}
             </div>
 
             {/* AI Insights */}
-            <div className="mt-6 p-4 rounded-xl bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200">
+            <div className="mt-6 p-4 rounded-xl bg-gradient-to-r from-[#26A9E0]/10 to-[#26A9E0]/5 border border-[#26A9E0]/20">
               <div className="flex items-center space-x-2 mb-2">
-                <Sparkles className="w-4 h-4 text-purple-600 animate-spin-slow" />
-                <span className="text-sm font-semibold text-purple-700">AI Insight</span>
+          <Sparkles className="w-5 h-4 text-[#26A9E0] animate-spin-slow" />
+          <span className="text-sm font-semibold text-[#26A9E0]">AI Insight</span>
               </div>
-              <p className="text-sm text-purple-600">
-                Sentiment trend shows <strong>+12.3%</strong> improvement over last period. 
-                Adventure-focused mentions driving positive sentiment.
+              <p className="text-sm text-[#26A9E0]">
+          Sentiment trend shows <strong>+12.3%</strong> improvement over last period. 
+          Adventure-focused mentions driving positive sentiment.
               </p>
             </div>
           </CardContent>
@@ -1575,17 +1572,17 @@ const renderPerformancePage = () => (
 
         {/* Geographic Heat Distribution */}
         <Card className="relative overflow-hidden animate-fade-in-up animation-delay-700">
-          <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 via-blue-500/5 to-indigo-500/5" />
+          <div className="absolute inset-0 bg-gradient-to-br from-[#26A9E0]/5 via-[#26A9E0]/5 to-[#26A9E0]/5" />
           <CardHeader className="pb-4 relative z-10">
             <div className="flex items-center space-x-2">
-              <div className="p-2 rounded-lg bg-gradient-to-br from-cyan-500 to-blue-500">
-                <Globe className="w-5 h-5 text-white" />
+              <div className="p-2 rounded-lg bg-gradient-to-br from-[#26A9E0] to-[#26A9E0]">
+          <Globe className="w-5 h-5 text-white" />
               </div>
               <div>
-                <CardTitle className="text-lg font-bold bg-gradient-to-r from-cyan-600 to-blue-600 bg-clip-text text-transparent">
-                  Geographic Reach
-                </CardTitle>
-                <p className="text-sm text-muted-foreground">Global mention distribution</p>
+          <CardTitle className="text-lg font-bold bg-gradient-to-r from-[#26A9E0] to-[#26A9E0] bg-clip-text text-transparent">
+            Geographic Reach
+          </CardTitle>
+          <p className="text-sm text-muted-foreground">Global mention distribution</p>
               </div>
             </div>
           </CardHeader>
@@ -1594,62 +1591,59 @@ const renderPerformancePage = () => (
             {/* World regions visualization */}
             <div className="space-y-4 mb-6">
               {[
-                { region: "North America", mentions: 1840, percentage: 64.6, growth: "+18.2%", flag: "🇺🇸" },
-                { region: "Europe", mentions: 624, percentage: 21.9, growth: "+12.7%", flag: "🇪🇺" },
-                { region: "Asia Pacific", mentions: 289, percentage: 10.1, growth: "+45.8%", flag: "🌏" },
-                { region: "Others", mentions: 94, percentage: 3.3, growth: "+8.1%", flag: "🌍" }
+          { region: "North America", mentions: 1840, percentage: 64.6, growth: "+18.2%", flag: "🇺🇸" },
+          { region: "Europe", mentions: 624, percentage: 21.9, growth: "+12.7%", flag: "🇪🇺" },
+          { region: "Asia Pacific", mentions: 289, percentage: 10.1, growth: "+45.8%", flag: "🌏" },
+          { region: "Others", mentions: 94, percentage: 3.3, growth: "+8.1%", flag: "🌍" }
               ].map((region, index) => (
-                <div key={region.region} className="space-y-2 animate-slide-in-right" style={{ animationDelay: `${index * 150}ms` }}>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-3">
-                      <span className="text-lg">{region.flag}</span>
-                      <div>
-                        <span className="font-semibold text-sm">{region.region}</span>
-                        <div className="flex items-center space-x-2 text-xs text-muted-foreground">
-                          <span>{region.mentions.toLocaleString()} mentions</span>
-                          <span className="text-green-600 font-medium">{region.growth}</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <span className="font-bold text-lg">{region.percentage}%</span>
-                    </div>
-                  </div>
-                  
-                  {/* Progress bar with gradient */}
-                  <div className="relative w-full h-3 bg-muted rounded-full overflow-hidden">
-                    <div 
-                      className="h-full rounded-full animate-progress-fill"
-                      style={{ 
-                        background: `linear-gradient(90deg, 
-                          hsl(${200 + index * 30}, 70%, 50%), 
-                          hsl(${220 + index * 30}, 80%, 60%))`,
-                        width: `${region.percentage}%`,
-                        animationDelay: `${index * 150 + 300}ms`
-                      }}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shimmer" />
-                  </div>
+          <div key={region.region} className="space-y-2 animate-slide-in-right" style={{ animationDelay: `${index * 150}ms` }}>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-3">
+                <span className="text-lg">{region.flag}</span>
+                <div>
+            <span className="font-semibold text-sm">{region.region}</span>
+            <div className="flex items-center space-x-2 text-xs text-muted-foreground">
+              <span>{region.mentions.toLocaleString()} mentions</span>
+              <span className="text-green-600 font-medium">{region.growth}</span>
+            </div>
                 </div>
+              </div>
+              <div className="text-right">
+                <span className="font-bold text-lg">{region.percentage}%</span>
+              </div>
+            </div>
+            
+            {/* Progress bar with gradient */}
+            <div className="relative w-full h-3 bg-muted rounded-full overflow-hidden">
+              <div 
+                className="h-full rounded-full animate-progress-fill"
+                style={{ 
+            background: `linear-gradient(90deg, #26A9E0, #26A9E0)`,
+            width: `${region.percentage}%`,
+            animationDelay: `${index * 150 + 300}ms`
+                }}
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shimmer" />
+            </div>
+          </div>
               ))}
             </div>
 
             {/* Top cities */}
-            <div className="p-4 rounded-xl bg-gradient-to-r from-cyan-50 to-blue-50 border border-cyan-200">
-              <h4 className="font-semibold text-sm text-cyan-700 mb-3">Top Cities</h4>
+            <div className="p-4 rounded-xl bg-gradient-to-r from-[#26A9E0]/10 to-[#26A9E0]/5 border border-[#26A9E0]/20">
+              <h4 className="font-semibold text-sm text-[#26A9E0] mb-3">Top Cities</h4>
               <div className="grid grid-cols-2 gap-3">
-                {[
-                  { city: "Los Angeles", mentions: 342 },
-                  { city: "New York", mentions: 298 },
-                  { city: "Chicago", mentions: 267 },
-                  { city: "Toronto", mentions: 189 }
-                ].map((city, index) => (
-                  <div key={city.city} className="flex items-center justify-between animate-fade-in-up" style={{ animationDelay: `${index * 100}ms` }}>
-                  <span className="text-xs font-medium text-gray-800 dark:text-gray-700">{city.city}</span>
-
-                    <span className="text-xs font-bold text-cyan-700 dark:text-cyan-300">{city.mentions}</span>
-                  </div>
-                ))}
+          {[
+            { city: "Los Angeles", mentions: 342 },
+            { city: "New York", mentions: 298 },
+            { city: "Chicago", mentions: 267 },
+            { city: "Toronto", mentions: 189 }
+          ].map((city, index) => (
+            <div key={city.city} className="flex items-center justify-between animate-fade-in-up" style={{ animationDelay: `${index * 100}ms` }}>
+            <span className="text-xs font-medium text-gray-800 dark:text-gray-700">{city.city}</span>
+              <span className="text-xs font-bold text-[#26A9E0] dark:text-[#26A9E0]">{city.mentions}</span>
+            </div>
+          ))}
               </div>
             </div>
           </CardContent>
@@ -1657,17 +1651,17 @@ const renderPerformancePage = () => (
 
         {/* Predictive Analytics */}
         <Card className="relative overflow-hidden animate-fade-in-up animation-delay-800">
-          <div className="absolute inset-0 bg-gradient-to-br from-orange-500/5 via-red-500/5 to-pink-500/5" />
+          <div className="absolute inset-0 bg-gradient-to-br from-[#26A9E0]/5 via-[#26A9E0]/5 to-[#26A9E0]/5" />
           <CardHeader className="pb-4 relative z-10">
             <div className="flex items-center space-x-2">
-              <div className="p-2 rounded-lg bg-gradient-to-br from-orange-500 to-red-500">
-                <TrendingUp className="w-5 h-5 text-white" />
+              <div className="p-2 rounded-lg bg-gradient-to-br from-[#26A9E0] to-[#26A9E0]">
+          <TrendingUp className="w-5 h-5 text-white" />
               </div>
               <div>
-                <CardTitle className="text-lg font-bold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">
-                  Predictive Insights
-                </CardTitle>
-                <p className="text-sm text-muted-foreground">AI-powered forecasting</p>
+          <CardTitle className="text-lg font-bold bg-gradient-to-r from-[#26A9E0] to-[#26A9E0] bg-clip-text text-transparent">
+            Predictive Insights
+          </CardTitle>
+          <p className="text-sm text-muted-foreground">AI-powered forecasting</p>
               </div>
             </div>
           </CardHeader>
@@ -1676,139 +1670,136 @@ const renderPerformancePage = () => (
             {/* Prediction chart */}
             <div className="relative h-32 mb-6 rounded-lg bg-gradient-to-r from-muted/30 to-transparent overflow-hidden">
               <svg className="w-full h-full" viewBox="0 0 300 120" preserveAspectRatio="none">
-                <defs>
-                  <linearGradient id="predictionGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stopColor="#f97316" stopOpacity="0.6" />
-                    <stop offset="100%" stopColor="#f97316" stopOpacity="0.1" />
-                  </linearGradient>
-                </defs>
-                
-                {/* Historical data (solid line) */}
-                <path
-                  d="M 0,80 Q 50,70 100,75 T 200,60"
-                  fill="none"
-                  stroke="#3b82f6"
-                  strokeWidth="3"
-                  strokeLinecap="round"
-                  className="animate-progress-fill"
-                  style={{
-                    strokeDasharray: 400,
-                    strokeDashoffset: 400,
-                    animation: 'sparklineDraw 2s ease-out 0.5s forwards'
-                  }}
-                />
-                
-                {/* Prediction line (dashed) */}
-                <path
-                  d="M 200,60 Q 225,45 250,40 T 300,35"
-                  fill="none"
-                  stroke="#f97316"
-                  strokeWidth="3"
-                  strokeDasharray="8,4"
-                  strokeLinecap="round"
-                  className="animate-progress-fill"
-                  style={{
-                    strokeDasharray: 200,
-                    strokeDashoffset: 200,
-                    animation: 'sparklineDraw 1.5s ease-out 2s forwards'
-                  }}
-                />
-                
-                {/* Prediction area */}
-                <path
-                  d="M 200,60 Q 225,45 250,40 T 300,35 L 300,120 L 200,120 Z"
-                  fill="url(#predictionGradient)"
-                  opacity="0"
-                  className="animate-fade-in-up"
-                  style={{ animationDelay: '2.5s' }}
-                />
-                
-                {/* Data points */}
-                {[
-                  { x: 50, y: 70, type: 'historical' },
-                  { x: 100, y: 75, type: 'historical' },
-                  { x: 150, y: 65, type: 'historical' },
-                  { x: 200, y: 60, type: 'current' },
-                  { x: 250, y: 40, type: 'predicted' },
-                  { x: 300, y: 35, type: 'predicted' }
-                ].map((point, index) => (
-                  <circle
-                    key={index}
-                    cx={point.x}
-                    cy={point.y}
-                    r="4"
-                    fill={point.type === 'predicted' ? '#f97316' : point.type === 'current' ? '#10b981' : '#3b82f6'}
-                    stroke="white"
-                    strokeWidth="2"
-                    className="drop-shadow-md animate-scale-in"
-                    style={{ animationDelay: `${index * 0.2 + 1}s` }}
-                  />
-                ))}
+          <defs>
+            <linearGradient id="predictionGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stopColor="#26A9E0" stopOpacity="0.6" />
+              <stop offset="100%" stopColor="#26A9E0" stopOpacity="0.1" />
+            </linearGradient>
+          </defs>
+          
+          {/* Historical data (solid line) */}
+          <path
+            d="M 0,80 Q 50,70 100,75 T 200,60"
+            fill="none"
+            stroke="#26A9E0"
+            strokeWidth="3"
+            strokeLinecap="round"
+            className="animate-progress-fill"
+            style={{
+              strokeDasharray: 400,
+              strokeDashoffset: 400,
+              animation: 'sparklineDraw 2s ease-out 0.5s forwards'
+            }}
+          />
+          
+          {/* Prediction line (dashed) */}
+          <path
+            d="M 200,60 Q 225,45 250,40 T 300,35"
+            fill="none"
+            stroke="#26A9E0"
+            strokeWidth="3"
+            strokeDasharray="8,4"
+            strokeLinecap="round"
+            className="animate-progress-fill"
+            style={{
+              strokeDasharray: 200,
+              strokeDashoffset: 200,
+              animation: 'sparklineDraw 1.5s ease-out 2s forwards'
+            }}
+          />
+          
+          {/* Prediction area */}
+          <path
+            d="M 200,60 Q 225,45 250,40 T 300,35 L 300,120 L 200,120 Z"
+            fill="url(#predictionGradient)"
+            opacity="0"
+            className="animate-fade-in-up"
+            style={{ animationDelay: '2.5s' }}
+          />
+          
+          {/* Data points */}
+          {[
+            { x: 50, y: 70, type: 'historical' },
+            { x: 100, y: 75, type: 'historical' },
+            { x: 150, y: 65, type: 'historical' },
+            { x: 200, y: 60, type: 'current' },
+            { x: 250, y: 40, type: 'predicted' },
+            { x: 300, y: 35, type: 'predicted' }
+          ].map((point, index) => (
+            <circle
+              key={index}
+              cx={point.x}
+              cy={point.y}
+              r="4"
+              fill={point.type === 'predicted' ? '#26A9E0' : point.type === 'current' ? '#26A9E0' : '#26A9E0'}
+              stroke="white"
+              strokeWidth="2"
+              className="drop-shadow-md animate-scale-in"
+              style={{ animationDelay: `${index * 0.2 + 1}s` }}
+            />
+          ))}
               </svg>
             </div>
 
             {/* Predictions */}
             <div className="space-y-3">
               {[
-                { 
-                  prediction: "Next 7 days", 
-                  value: "+15.2%", 
-                  confidence: 87, 
-                  trend: "up",
-                  insight: "Adventure segment surge expected"
-                },
-                { 
-                  prediction: "Next 30 days", 
-                  value: "+28.7%", 
-                  confidence: 79, 
-                  trend: "up",
-                  insight: "New model launch impact"
-                },
-                { 
-                  prediction: "Competition risk", 
-                  value: "Medium", 
-                  confidence: 92, 
-                  trend: "stable",
-                  insight: "Ford Bronco activity increasing"
-                }
+          { 
+            prediction: "Next 7 days", 
+            value: "+15.2%", 
+            confidence: 87, 
+            trend: "up",
+            insight: "Adventure segment surge expected"
+          },
+          { 
+            prediction: "Next 30 days", 
+            value: "+28.7%", 
+            confidence: 79, 
+            trend: "up",
+            insight: "New model launch impact"
+          },
+          { 
+            prediction: "Competition risk", 
+            value: "Medium", 
+            confidence: 92, 
+            trend: "stable",
+            insight: "Ford Bronco activity increasing"
+          }
               ].map((item, index) => (
-                <div key={item.prediction} className="p-3 rounded-lg bg-muted/30 hover:bg-muted/50 transition-all duration-300 animate-slide-in-left" style={{ animationDelay: `${index * 150}ms` }}>
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="font-semibold text-sm">{item.prediction}</span>
-                    <div className="flex items-center space-x-2">
-                      <span className={`font-bold ${
-                        item.trend === 'up' ? 'text-green-600' : 
-                        item.trend === 'down' ? 'text-red-600' : 'text-yellow-600'
-                      }`}>
-                        {item.value}
-                      </span>
-                      {item.trend === 'up' ? (
-                        <ArrowUpRight className="w-3 h-3 text-green-600" />
-                      ) : item.trend === 'down' ? (
-                        <ArrowDownRight className="w-3 h-3 text-red-600" />
-                      ) : (
-                        <div className="w-3 h-3 bg-yellow-500 rounded-full" />
-                      )}
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="text-muted-foreground">{item.insight}</span>
-                    <div className="flex items-center space-x-1">
-                      <span className="text-muted-foreground">Confidence:</span>
-                      <span className="font-semibold">{item.confidence}%</span>
-                      <div className="w-8 h-1 bg-muted rounded-full overflow-hidden">
-                        <div 
-                          className={`h-full rounded-full ${
-                            item.confidence > 85 ? 'bg-green-500' : 
-                            item.confidence > 70 ? 'bg-yellow-500' : 'bg-red-500'
-                          }`}
-                          style={{ width: `${item.confidence}%` }}
-                        />
-                      </div>
-                    </div>
-                  </div>
+          <div key={item.prediction} className="p-3 rounded-lg bg-muted/30 hover:bg-muted/50 transition-all duration-300 animate-slide-in-left" style={{ animationDelay: `${index * 150}ms` }}>
+            <div className="flex items-center justify-between mb-2">
+              <span className="font-semibold text-sm">{item.prediction}</span>
+              <div className="flex items-center space-x-2">
+                <span className={`font-bold ${
+            item.trend === 'up' ? 'text-[#26A9E0]' : 
+            item.trend === 'down' ? 'text-[#26A9E0]' : 'text-[#26A9E0]'
+                }`}>
+            {item.value}
+                </span>
+                {item.trend === 'up' ? (
+            <ArrowUpRight className="w-3 h-3 text-[#26A9E0]" />
+                ) : item.trend === 'down' ? (
+            <ArrowDownRight className="w-3 h-3 text-[#26A9E0]" />
+                ) : (
+            <div className="w-3 h-3 bg-[#26A9E0] rounded-full" />
+                )}
+              </div>
+            </div>
+            
+            <div className="flex items-center justify-between text-xs">
+              <span className="text-muted-foreground">{item.insight}</span>
+              <div className="flex items-center space-x-1">
+                <span className="text-muted-foreground">Confidence:</span>
+                <span className="font-semibold">{item.confidence}%</span>
+                <div className="w-8 h-1 bg-muted rounded-full overflow-hidden">
+            <div 
+              className={`h-full rounded-full bg-[#26A9E0]`}
+              style={{ width: `${item.confidence}%` }}
+            />
                 </div>
+              </div>
+            </div>
+          </div>
               ))}
             </div>
           </CardContent>
@@ -1831,17 +1822,15 @@ const renderPromptLibraryPage = () => (
         <TabsList className="bg-transparent border border-white/10 backdrop-blur-lg rounded-xl">
           <TabsTrigger
             value="active"
-            className="relative px-6 py-3 text-sm font-medium tracking-wide text-[#1A2A44] dark:text-[#E6E6FA] transition-all duration-500 hover:scale-105 hover:bg-gradient-to-r hover:from-[#1A2A44]/20 hover:to-[#4B0082]/20 data-[state=active]:bg-gradient-to-r data-[state=active]:from-[#1A2A44] data-[state=active]:to-[#4B0082] data-[state=active]:text-white data-[state=active]:shadow-[0_0_15px_rgba(75,0,130,0.3)] rounded-lg"
+            className="relative px-6 py-3 text-sm font-medium tracking-wide text-white transition-all duration-500 hover:scale-105 rounded-lg data-[state=active]:bg-[#2D4964] data-[state=active]:text-white data-[state=active]:shadow-[0_0_15px_rgba(75,0,130,0.3)]"
           >
             <span className="relative z-10">Active Prompts</span>
-            <div className="absolute inset-0 bg-gradient-to-r from-[#1A2A44]/10 to-[#4B0082]/10 opacity-0 data-[state=active]:opacity-100 transition-opacity duration-500 rounded-lg" />
           </TabsTrigger>
           <TabsTrigger
             value="archived"
-            className="relative px-6 py-3 text-sm font-medium tracking-wide text-[#1A2A44] dark:text-[#E6E6FA] transition-all duration-500 hover:scale-105 hover:bg-gradient-to-r hover:from-[#1A2A44]/20 hover:to-[#4B0082]/20 data-[state=active]:bg-gradient-to-r data-[state=active]:from-[#1A2A44] data-[state=active]:to-[#4B0082] data-[state=active]:text-white data-[state=active]:shadow-[0_0_15px_rgba(75,0,130,0.3)] rounded-lg"
+            className="relative px-6 py-3 text-sm font-medium tracking-wide text-white transition-all duration-500 hover:scale-105 rounded-lg data-[state=active]:bg-[#2D4964] data-[state=active]:text-white data-[state=active]:shadow-[0_0_15px_rgba(75,0,130,0.3)]"
           >
             <span className="relative z-10">Archived</span>
-            <div className="absolute inset-0 bg-gradient-to-r from-[#1A2A44]/10 to-[#4B0082]/10 opacity-0 data-[state=active]:opacity-100 transition-opacity duration-500 rounded-lg" />
           </TabsTrigger>
         </TabsList>
       </Tabs>
@@ -1857,11 +1846,17 @@ const renderPromptLibraryPage = () => (
         </Button>
         <Button
           size="sm"
-          className="relative bg-gradient-to-r from-[#1A2A44] to-[#4B0082] hover:from-[#1A2A44]/80 hover:to-[#4B0082]/80 text-white font-medium tracking-wide transition-all duration-500 hover:scale-105 hover:shadow-[0_0_20px_rgba(75,0,130,0.5)] rounded-lg"
+          className="relative bg-[#2D4964] hover:bg-[#2D4964]/90 text-white font-medium tracking-wide transition-all duration-500 hover:scale-105 hover:shadow-[0_0_20px_rgba(75,0,130,0.5)] rounded-lg hover:text-white"
+          style={{ color: "white" }}
         >
           <Plus className="w-4 h-4 mr-2 animate-bounce-subtle" />
           New Prompt
-          <div className="absolute inset-0 bg-gradient-to-r from-[#1A2A44]/20 to-[#4B0082]/20 opacity-0 hover:opacity-100 transition-opacity duration-500 rounded-lg" />
+          <div className="absolute inset-0 bg-[#2D4964] opacity-0 hover:opacity- transition-opacity duration-500 rounded-lg" />
+          <style jsx>{`
+            button:hover {
+              color: #fff !important;
+            }
+          `}</style>
         </Button>
       </div>
     </div>
@@ -2051,31 +2046,31 @@ const renderPromptLibraryPage = () => (
     </Card>
   </div>
 )
- const renderCitedSourcesPage = () => (
-  <div className="space-y-8">
+const renderCitedSourcesPage = () => (
+  <div className="space-y-8" style={{ background: "#000" }}>
     {/* Stats Overview Header */}
     <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
       {[
-        { icon: BarChart3, title: "Total Citations", value: "2,847", change: "+12.5%", color: "from-blue-500 to-cyan-500" },
-        { icon: Award, title: "High Authority", value: "89%", change: "+3.2%", color: "from-emerald-500 to-teal-500" },
-        { icon: Zap, title: "Growth Rate", value: "18.2%", change: "+5.1%", color: "from-purple-500 to-pink-500" },
-        { icon: Target, title: "Active Sources", value: "156", change: "+8", color: "from-orange-500 to-red-500" },
+        { icon: BarChart3, title: "Total Citations", value: "2,847", change: "+12.5%" },
+        { icon: Award, title: "High Authority", value: "89%", change: "+3.2%" },
+        { icon: Zap, title: "Growth Rate", value: "18.2%", change: "+5.1%" },
+        { icon: Target, title: "Active Sources", value: "156", change: "+8" },
       ].map((stat, index) => (
         <div
           key={stat.title}
-          className="relative overflow-hidden bg-white dark:bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-200/50 dark:border-gray-700/50 hover:shadow-2xl hover:shadow-blue-500/10"
+          className="relative overflow-hidden rounded-2xl p-6 border border-gray-200/50 dark:border-gray-700/50 hover:shadow-2xl"
+          style={{ background: "#000" }}
         >
-          <div className={`absolute inset-0 bg-gradient-to-r ${stat.color} opacity-5 group-hover:opacity-10 transition-opacity duration-500`} />
           <div className="flex items-center justify-between relative z-10">
             <div>
-              <p className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">{stat.title}</p>
-              <p className="text-2xl font-bold text-gray-900 dark:text-white mb-1">{stat.value}</p>
-              <span className="inline-flex items-center text-sm font-medium text-emerald-600 dark:text-emerald-400">
-                <ArrowUpRight className="w-3 h-3 mr-1" />
-                {stat.change}
+              <p className="text-sm font-medium text-white/80 mb-1">{stat.title}</p>
+              <p className="text-2xl font-bold text-white mb-1">{stat.value}</p>
+              <span className="inline-flex items-center text-sm font-medium text-white/90">
+          <ArrowUpRight className="w-3 h-3 mr-1 text-white" />
+          {stat.change}
               </span>
             </div>
-            <div className={`p-3 bg-gradient-to-r ${stat.color} rounded-xl group-hover:scale-110 transition-transform duration-300`}>
+            <div className="p-3 rounded-xl" style={{ background: "#318E99" }}>
               <stat.icon className="w-6 h-6 text-white" />
             </div>
           </div>
@@ -2086,7 +2081,7 @@ const renderPromptLibraryPage = () => (
     {/* Main Content Grid */}
     <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
       {/* Citation Distribution */}
-      <Card className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#1A2A44]/10 via-white/5 to-[#4B0082]/10 dark:from-[#1A2A44]/20 dark:via-black/10 dark:to-[#4B0082]/20 backdrop-blur-xl border border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.1)] animate-fade-in-scale">
+      <Card className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#1A2A44]/10 via-white/5 to-[#4B0082]/10 dark:from-[#1A2A44]/20 dark:via-black/10 dark:to-[#4B0082]/20 backdrop-blur-xl border border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.1)] animate-fade-in-scale" style={{ background: "#000" }}>
 
 <style jsx global>{`
   @keyframes fadeInScale {
@@ -2099,7 +2094,7 @@ const renderPromptLibraryPage = () => (
 `}</style>
         <CardHeader className="pb-4 border-b border-gray-100 dark:border-gray-700">
           <div className="flex items-center space-x-3">
-            <div className="p-2 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg">
+            <div className="p-2 rounded-lg" style={{ background: "#318E99" }}>
               <BarChart3 className="w-5 h-5 text-white" />
             </div>
             <div>
@@ -2149,11 +2144,11 @@ const renderPromptLibraryPage = () => (
       </Card>
 
       {/* Top Domains */}
-      <Card className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#1A2A44]/10 via-white/5 to-[#4B0082]/10 dark:from-[#1A2A44]/20 dark:via-black/10 dark:to-[#4B0082]/20 backdrop-blur-xl border border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.1)]">
+      <Card className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#1A2A44]/10 via-white/5 to-[#4B0082]/10 dark:from-[#1A2A44]/20 dark:via-black/10 dark:to-[#4B0082]/20 backdrop-blur-xl border border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.1)]" style={{ background: "#000" }}>
         <CardHeader className="pb-4 border-b border-gray-100 dark:border-gray-700">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <div className="p-2 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-lg">
+              <div className="p-2 rounded-lg" style={{ background: "#318E99" }}>
                 <Globe className="w-5 h-5 text-white" />
               </div>
               <div>
@@ -2163,8 +2158,8 @@ const renderPromptLibraryPage = () => (
                 <p className="text-sm text-gray-500 dark:text-gray-400">Highest citation frequency</p>
               </div>
             </div>
-            <Button size="sm" className="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700">
-              <Eye className="w-4 h-4 mr-1" />
+            <Button size="sm" style={{ background: "#318E99", color: "#fff" }}>
+              <Eye className="w-4 h-4 mr-1 text-white" />
               View All
             </Button>
           </div>
@@ -2179,10 +2174,10 @@ const renderPromptLibraryPage = () => (
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center space-x-3">
                     <div className="relative">
-                      <Globe className="w-5 h-5 text-gray-600 dark:text-gray-400 group-hover:text-emerald-500 transition-colors duration-300" />
-                      <div className="absolute -top-1 -right-1 w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
+                      <Globe className="w-5 h-5 text-gray-600 dark:text-gray-400 group-hover:text-[#318E99] transition-colors duration-300" />
+                      <div className="absolute -top-1 -right-1 w-2 h-2 bg-[#318E99] rounded-full animate-pulse" />
                     </div>
-                    <span className="font-semibold text-gray-800 dark:text-gray-200 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors duration-300">
+                    <span className="font-semibold text-gray-800 dark:text-gray-200 group-hover:text-[#318E99] dark:group-hover:text-[#318E99] transition-colors duration-300">
                       {domain.domain}
                     </span>
                   </div>
@@ -2202,7 +2197,7 @@ const renderPromptLibraryPage = () => (
                 </div>
                 <div className="w-full bg-gray-200 dark:bg-gray-600 h-2.5 rounded-full overflow-hidden">
                   <div
-                    className="bg-gradient-to-r from-emerald-400 to-teal-500 h-2.5 rounded-full transition-all duration-[2000ms] ease-out shadow-sm"
+                    className="bg-gradient-to-r from-[#318E99] to-[#318E99] h-2.5 rounded-full transition-all duration-[2000ms] ease-out shadow-sm"
                     style={{ width: `${domain.percentage}%` }}
                   />
                 </div>
@@ -2213,10 +2208,10 @@ const renderPromptLibraryPage = () => (
       </Card>
 
       {/* Growth Leaders */}
-      <Card className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#1A2A44]/10 via-white/5 to-[#4B0082]/10 dark:from-[#1A2A44]/20 dark:via-black/10 dark:to-[#4B0082]/20 backdrop-blur-xl border border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.1)]">
+      <Card className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#1A2A44]/10 via-white/5 to-[#4B0082]/10 dark:from-[#1A2A44]/20 dark:via-black/10 dark:to-[#4B0082]/20 backdrop-blur-xl border border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.1)]" style={{ background: "#000" }}>
         <CardHeader className="pb-4 border-b border-gray-100 dark:border-gray-700">
           <div className="flex items-center space-x-3">
-            <div className="p-2 bg-gradient-to-r from-purple-500 to-pink-600 rounded-lg">
+            <div className="p-2 rounded-lg" style={{ background: "#318E99" }}>
               <TrendingUp className="w-5 h-5 text-white" />
             </div>
             <div>
@@ -2252,7 +2247,7 @@ const renderPromptLibraryPage = () => (
                       {item.rank === 1 && <div className="absolute -top-1 -right-1 w-3 h-3 bg-yellow-400 rounded-full animate-ping" />}
                     </div>
                     <div className="flex-1">
-                      <div className="font-semibold text-gray-800 dark:text-gray-200 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors duration-300">
+                      <div className="font-semibold text-gray-800 dark:text-gray-200 group-hover:text-[#318E99] dark:group-hover:text-[#318E99] transition-colors duration-300">
                         {item.domain}
                       </div>
                       <div className="flex items-center space-x-3 mt-1">
@@ -2288,11 +2283,11 @@ const renderPromptLibraryPage = () => (
     </div>
 
     {/* Enhanced Citations Table */}
-    <Card className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#1A2A44]/10 via-white/5 to-[#4B0082]/10 dark:from-[#1A2A44]/20 dark:via-black/10 dark:to-[#4B0082]/20 backdrop-blur-xl border border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.1)]">
+    <Card className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#1A2A44]/10 via-white/5 to-[#4B0082]/10 dark:from-[#1A2A44]/20 dark:via-black/10 dark:to-[#4B0082]/20 backdrop-blur-xl border border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.1)]" style={{ background: "#000" }}>
       <CardHeader className="border-b border-gray-100 dark:border-gray-700 bg-gradient-to-r from-blue-50/50 to-purple-50/50 dark:from-blue-900/20 dark:to-purple-900/20">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
-            <div className="p-3 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl">
+            <div className="p-3 rounded-xl" style={{ background: "#318E99" }}>
               <BarChart3 className="w-6 h-6 text-white" />
             </div>
             <div>
@@ -2311,8 +2306,8 @@ const renderPromptLibraryPage = () => (
                 className="bg-transparent text-sm outline-none text-gray-600 dark:text-gray-300 w-32"
               />
             </div>
-            <Button className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 px-4 py-2">
-              <Download className="w-4 h-4 mr-2" />
+            <Button style={{ background: "#318E99", color: "#fff" }} className="px-4 py-2">
+              <Download className="w-4 h-4 mr-2 text-white" />
               Export Data
             </Button>
           </div>
